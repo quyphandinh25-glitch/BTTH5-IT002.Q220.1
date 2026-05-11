@@ -281,7 +281,7 @@ public:
         }
         return tongTien / slGDCanho;
     }
-    void GDRICH()
+    void RICH()
     {
         GiaoDich *GD = nullptr;
         double maxMoney = -1;
@@ -324,7 +324,7 @@ int main()
     cout << "Trung binh thanh tien cua giao dich Can ho chung cu la: " << fixed << setprecision(0) << allGD.tbThanhTienGDChungCu() << "\n";
     
     cout << "\n--- GIAO DICH NHA PHO CO GIA TRI CAO NHAT ---\n";
-    allGD.GDRICH();
+    allGD.RICH();
     
     return 0;
 }
