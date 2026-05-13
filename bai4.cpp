@@ -12,32 +12,9 @@ protected:
     double luongCB;
 
 public:
-    virtual void Nhap()
-    {
-        cout << "Nhap ma nhan vien: ";
-        cin >> maNV;
-        cin.ignore();
-        cout << "Nhap ho ten: ";
-        getline(cin, hoTen);
-        cout << "Nhap tuoi: ";
-        cin >> tuoi;
-        cin.ignore();
-        cout << "Nhap so dien thoai: ";
-        getline(cin, sdt);
-        cout << "Nhap email: ";
-        getline(cin, email);
-        cout << "Nhap luong co ban: ";
-        cin >> luongCB;
-    }
-    
-    virtual void Xuat()
-    {
-        cout << "Ma NV: " << maNV << "\t" << "Ten: " << hoTen << "\t" 
-             << "Tuoi: " << tuoi << "\t" << "SDT: " << sdt << "\t" 
-             << "Email: " << email << "\t" << "Luong CB: " << fixed << setprecision(0) << luongCB << "\t";
-    }
-    
-    virtual ~NhanVien() {}
+    virtual void Nhap();
+    virtual void Xuat();
+    virtual ~NhanVien();
     virtual int getLoai() = 0;
     virtual double TinhLuong() = 0;
 };
@@ -48,29 +25,10 @@ private:
     int gioOvertime;
 
 public:
-    void Nhap() override
-    {
-        NhanVien::Nhap();
-        cout << "Nhap so gio overtime: ";
-        cin >> gioOvertime;
-    }
-    
-    void Xuat() override
-    {
-        NhanVien::Xuat();
-        cout << "Gio OT: " << gioOvertime << "\t" 
-             << "Tong Luong: " << fixed << setprecision(0) << TinhLuong() << "\n";
-    }
-    
-    int getLoai() override
-    {
-        return 1;
-    }
-    
-    double TinhLuong() override
-    {
-        return luongCB + (gioOvertime * 200000);
-    }
+    void Nhap() override;
+    void Xuat() override;
+    int getLoai() override;
+    double TinhLuong() override;
 };
 
 class KiemChungVien : public NhanVien
@@ -79,29 +37,10 @@ private:
     int soLoi;
 
 public:
-    void Nhap() override
-    {
-        NhanVien::Nhap();
-        cout << "Nhap so loi phat hien: ";
-        cin >> soLoi;
-    }
-    
-    void Xuat() override
-    {
-        NhanVien::Xuat();
-        cout << "So loi: " << soLoi << "\t" 
-             << "Tong Luong: " << fixed << setprecision(0) << TinhLuong() << "\n";
-    }
-    
-    int getLoai() override
-    {
-        return 2;
-    }
-    
-    double TinhLuong() override
-    {
-        return luongCB + (soLoi * 50000);
-    }
+    void Nhap() override;
+    void Xuat() override;
+    int getLoai() override;
+    double TinhLuong() override;
 };
 
 class CongTy
@@ -111,83 +50,212 @@ private:
     int SLLTV, SLKCV;
 
 public:
-    ~CongTy()
+    ~CongTy();
+    void NhapDanhSach();
+    void XuatDanhSach();
+    void LuongThapHonTB();
+    void NhanVienLuongCaoNhat();
+    void NhanVienLuongThapNhat();
+    void LTVLuongCaoNhat();
+    void KCVLuongThapNhat();
+};
+
+void NhanVien::Nhap()
+{
+    cout << "Nhap ma nhan vien: ";
+    cin >> maNV;
+    cin.ignore();
+    cout << "Nhap ho ten: ";
+    getline(cin, hoTen);
+    cout << "Nhap tuoi: ";
+    cin >> tuoi;
+    cin.ignore();
+    cout << "Nhap so dien thoai: ";
+    getline(cin, sdt);
+    cout << "Nhap email: ";
+    getline(cin, email);
+    cout << "Nhap luong co ban: ";
+    cin >> luongCB;
+}
+
+void NhanVien::Xuat()
+{
+    cout << "Ma NV: " << maNV << "\t" << "Ten: " << hoTen << "\t" 
+         << "Tuoi: " << tuoi << "\t" << "SDT: " << sdt << "\t" 
+         << "Email: " << email << "\t" << "Luong CB: " << fixed << setprecision(0) << luongCB << "\t";
+}
+
+NhanVien::~NhanVien() {}
+
+void LapTrinhVien::Nhap()
+{
+    NhanVien::Nhap();
+    cout << "Nhap so gio overtime: ";
+    cin >> gioOvertime;
+}
+
+void LapTrinhVien::Xuat()
+{
+    NhanVien::Xuat();
+    cout << "Gio OT: " << gioOvertime << "\t" 
+         << "Tong Luong: " << fixed << setprecision(0) << TinhLuong() << "\n";
+}
+
+int LapTrinhVien::getLoai()
+{
+    return 1;
+}
+
+double LapTrinhVien::TinhLuong()
+{
+    return luongCB + (gioOvertime * 200000);
+}
+
+void KiemChungVien::Nhap()
+{
+    NhanVien::Nhap();
+    cout << "Nhap so loi phat hien: ";
+    cin >> soLoi;
+}
+
+void KiemChungVien::Xuat()
+{
+    NhanVien::Xuat();
+    cout << "So loi: " << soLoi << "\t" 
+         << "Tong Luong: " << fixed << setprecision(0) << TinhLuong() << "\n";
+}
+
+int KiemChungVien::getLoai()
+{
+    return 2;
+}
+
+double KiemChungVien::TinhLuong()
+{
+    return luongCB + (soLoi * 50000);
+}
+
+CongTy::~CongTy()
+{
+    for (NhanVien *nv : ds)
     {
-        for (NhanVien *nv : ds)
-        {
-            delete nv;
-        }
+        delete nv;
+    }
+}
+
+void CongTy::NhapDanhSach()
+{
+    cout << "Nhap so luong Lap Trinh Vien: ";
+    cin >> SLLTV;
+    cout << "Nhap so luong Kiem Chung Vien: ";
+    cin >> SLKCV;
+    
+    cout << "\n--- NHAP THONG TIN LAP TRINH VIEN ---\n";
+    for (int i = 0; i < SLLTV; i++)
+    {
+        NhanVien *nv = new LapTrinhVien();
+        nv->Nhap();
+        ds.push_back(nv);
     }
     
-    void NhapDanhSach()
+    cout << "\n--- NHAP THONG TIN KIEM CHUNG VIEN ---\n";
+    for (int i = 0; i < SLKCV; i++)
     {
-        cout << "Nhap so luong Lap Trinh Vien: ";
-        cin >> SLLTV;
-        cout << "Nhap so luong Kiem Chung Vien: ";
-        cin >> SLKCV;
-        
-        cout << "\n--- NHAP THONG TIN LAP TRINH VIEN ---\n";
-        for (int i = 0; i < SLLTV; i++)
+        NhanVien *nv = new KiemChungVien();
+        nv->Nhap();
+        ds.push_back(nv);
+    }
+}
+
+void CongTy::XuatDanhSach()
+{
+    for (NhanVien *x : ds)
+    {
+        if (x->getLoai() == 1)
         {
-            NhanVien *nv = new LapTrinhVien();
-            nv->Nhap();
-            ds.push_back(nv);
+            cout << "[LTV] ";
+            x->Xuat();
         }
-        
-        cout << "\n--- NHAP THONG TIN KIEM CHUNG VIEN ---\n";
-        for (int i = 0; i < SLKCV; i++)
+        else if (x->getLoai() == 2)
         {
-            NhanVien *nv = new KiemChungVien();
-            nv->Nhap();
-            ds.push_back(nv);
+            cout << "[KCV] ";
+            x->Xuat();
         }
+    }
+}
+
+void CongTy::LuongThapHonTB()
+{
+    if (ds.empty()) return;
+    
+    double tongLuong = 0;
+    for (NhanVien *x : ds)
+    {
+        tongLuong += x->TinhLuong();
     }
     
-    void XuatDanhSach()
+    double trungBinh = tongLuong / ds.size();
+    cout << "Muc luong trung binh cua cong ty: " << fixed << setprecision(0) << trungBinh << "\n";
+    
+    for (NhanVien *x : ds)
     {
-        for (NhanVien *x : ds)
+        if (x->TinhLuong() < trungBinh)
         {
-            if (x->getLoai() == 1)
-            {
-                cout << "[LTV] ";
-                x->Xuat();
-            }
-            else if (x->getLoai() == 2)
-            {
-                cout << "[KCV] ";
-                x->Xuat();
-            }
+            x->Xuat();
         }
     }
+}
 
-    void LuongThapHonTB()
+void CongTy::NhanVienLuongCaoNhat()
+{
+    vector<NhanVien *> dsMax;
+    double maxLuong = -1;
+    
+    for (NhanVien *x : ds)
     {
-        if (ds.empty()) return;
-        
-        double tongLuong = 0;
-        for (NhanVien *x : ds)
+        if (x->TinhLuong() > maxLuong)
         {
-            tongLuong += x->TinhLuong();
+            maxLuong = x->TinhLuong();
+            dsMax.clear();
+            dsMax.push_back(x);
         }
-        
-        double trungBinh = tongLuong / ds.size();
-        cout << "Muc luong trung binh cua cong ty: " << fixed << setprecision(0) << trungBinh << "\n";
-        
-        for (NhanVien *x : ds)
+        else if (x->TinhLuong() == maxLuong)
         {
-            if (x->TinhLuong() < trungBinh)
-            {
-                x->Xuat();
-            }
+            dsMax.push_back(x);
         }
     }
+    for (NhanVien *x : dsMax) x->Xuat();
+}
 
-    void NhanVienLuongCaoNhat()
+void CongTy::NhanVienLuongThapNhat()
+{
+    vector<NhanVien *> dsMin;
+    double minLuong = 1e18; 
+    
+    for (NhanVien *x : ds)
     {
-        vector<NhanVien *> dsMax;
-        double maxLuong = -1;
-        
-        for (NhanVien *x : ds)
+        if (x->TinhLuong() < minLuong)
+        {
+            minLuong = x->TinhLuong();
+            dsMin.clear();
+            dsMin.push_back(x);
+        }
+        else if (x->TinhLuong() == minLuong)
+        {
+            dsMin.push_back(x);
+        }
+    }
+    for (NhanVien *x : dsMin) x->Xuat();
+}
+
+void CongTy::LTVLuongCaoNhat()
+{
+    vector<NhanVien *> dsMax;
+    double maxLuong = -1;
+    
+    for (NhanVien *x : ds)
+    {
+        if (x->getLoai() == 1)
         {
             if (x->TinhLuong() > maxLuong)
             {
@@ -200,15 +268,18 @@ public:
                 dsMax.push_back(x);
             }
         }
-        for (NhanVien *x : dsMax) x->Xuat();
     }
+    for (NhanVien *x : dsMax) x->Xuat();
+}
 
-    void NhanVienLuongThapNhat()
+void CongTy::KCVLuongThapNhat()
+{
+    vector<NhanVien *> dsMin;
+    double minLuong = 1e18; 
+    
+    for (NhanVien *x : ds)
     {
-        vector<NhanVien *> dsMin;
-        double minLuong = 1e18; 
-        
-        for (NhanVien *x : ds)
+        if (x->getLoai() == 2)
         {
             if (x->TinhLuong() < minLuong)
             {
@@ -221,57 +292,9 @@ public:
                 dsMin.push_back(x);
             }
         }
-        for (NhanVien *x : dsMin) x->Xuat();
     }
-
-    void LTVLuongCaoNhat()
-    {
-        vector<NhanVien *> dsMax;
-        double maxLuong = -1;
-        
-        for (NhanVien *x : ds)
-        {
-            if (x->getLoai() == 1)
-            {
-                if (x->TinhLuong() > maxLuong)
-                {
-                    maxLuong = x->TinhLuong();
-                    dsMax.clear();
-                    dsMax.push_back(x);
-                }
-                else if (x->TinhLuong() == maxLuong)
-                {
-                    dsMax.push_back(x);
-                }
-            }
-        }
-        for (NhanVien *x : dsMax) x->Xuat();
-    }
-
-    void KCVLuongThapNhat()
-    {
-        vector<NhanVien *> dsMin;
-        double minLuong = 1e18; 
-        
-        for (NhanVien *x : ds)
-        {
-            if (x->getLoai() == 2)
-            {
-                if (x->TinhLuong() < minLuong)
-                {
-                    minLuong = x->TinhLuong();
-                    dsMin.clear();
-                    dsMin.push_back(x);
-                }
-                else if (x->TinhLuong() == minLuong)
-                {
-                    dsMin.push_back(x);
-                }
-            }
-        }
-        for (NhanVien *x : dsMin) x->Xuat();
-    }
-};
+    for (NhanVien *x : dsMin) x->Xuat();
+}
 
 int main()
 {
