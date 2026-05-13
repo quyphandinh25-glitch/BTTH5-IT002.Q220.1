@@ -7,18 +7,32 @@ private:
     int ngay, thang, nam;
 
 public:
-    void Nhap()
-    {
-        cout << "Nhap ngay thang nam (cach nhau boi dau cach): ";
-        cin >> ngay >> thang >> nam;
-    }
-    void Xuat()
-    {
-        cout << ngay << "/" << thang << "/" << nam;
-    }
-    int getThang() { return thang; }
-    int getNam() { return nam; }
+    void Nhap();
+    void Xuat();
+    int getThang();
+    int getNam();
 };
+
+void NgayGiaoDich::Nhap()
+{
+    cout << "Nhap ngay thang nam (cach nhau boi dau cach): ";
+    cin >> ngay >> thang >> nam;
+}
+
+void NgayGiaoDich::Xuat()
+{
+    cout << ngay << "/" << thang << "/" << nam;
+}
+
+int NgayGiaoDich::getThang()
+{
+    return thang;
+}
+
+int NgayGiaoDich::getNam()
+{
+    return nam;
+}
 
 class GiaoDich
 {
@@ -27,25 +41,43 @@ protected:
     NgayGiaoDich day;
 
 public:
-    GiaoDich() {};
-    virtual ~GiaoDich() {}
-    virtual void Nhap()
-    {
-        cout << "Nhap ma giao dich: ";
-        getline(cin, maGiaoDich);
-        day.Nhap();
-    }
-    virtual void Xuat()
-    {
-        cout << "Ma GD: " << maGiaoDich << " | Ngay GD: ";
-        day.Xuat();
-    }
+    GiaoDich();
+    virtual ~GiaoDich();
+    virtual void Nhap();
+    virtual void Xuat();
     virtual double tinhThanhTien() = 0;
     virtual int getLoai() = 0;
     
-    int getThangGD() { return day.getThang(); }
-    int getNamGD() { return day.getNam(); }
+    int getThangGD();
+    int getNamGD();
 };
+
+GiaoDich::GiaoDich() {}
+
+GiaoDich::~GiaoDich() {}
+
+void GiaoDich::Nhap()
+{
+    cout << "Nhap ma giao dich: ";
+    getline(cin, maGiaoDich);
+    day.Nhap();
+}
+
+void GiaoDich::Xuat()
+{
+    cout << "Ma GD: " << maGiaoDich << " | Ngay GD: ";
+    day.Xuat();
+}
+
+int GiaoDich::getThangGD()
+{
+    return day.getThang();
+}
+
+int GiaoDich::getNamGD()
+{
+    return day.getNam();
+}
 
 class GiaoDichDat : public GiaoDich
 {
@@ -55,40 +87,48 @@ private:
     double dienTich;
 
 public:
-    void Nhap() override
-    {
-        GiaoDich::Nhap();
-        cout << "Nhap don gia: ";
-        cin >> donGia;
-        cin.ignore();
-        cout << "Nhap loai dat (A, B, C): ";
-        getline(cin, type);
-        cout << "Nhap dien tich: ";
-        cin >> dienTich;
-        cin.ignore();
-    }
-    void Xuat() override
-    {
-        GiaoDich::Xuat();
-        cout << " | Don gia: " << donGia << " | Loai dat: " << type << " | Dien tich: " << dienTich;
-    }
-    double tinhThanhTien() override
-    {
-        if (type == "A")
-        {
-            return dienTich * donGia * 1.5;
-        }
-        else if (type == "B" || type == "C")
-        {
-            return dienTich * donGia;
-        }
-        return 0;
-    }
-    int getLoai() override
-    {
-        return 1;
-    }
+    void Nhap() override;
+    void Xuat() override;
+    double tinhThanhTien() override;
+    int getLoai() override;
 };
+
+void GiaoDichDat::Nhap()
+{
+    GiaoDich::Nhap();
+    cout << "Nhap don gia: ";
+    cin >> donGia;
+    cin.ignore();
+    cout << "Nhap loai dat (A, B, C): ";
+    getline(cin, type);
+    cout << "Nhap dien tich: ";
+    cin >> dienTich;
+    cin.ignore();
+}
+
+void GiaoDichDat::Xuat()
+{
+    GiaoDich::Xuat();
+    cout << " | Don gia: " << donGia << " | Loai dat: " << type << " | Dien tich: " << dienTich;
+}
+
+double GiaoDichDat::tinhThanhTien()
+{
+    if (type == "A")
+    {
+        return dienTich * donGia * 1.5;
+    }
+    else if (type == "B" || type == "C")
+    {
+        return dienTich * donGia;
+    }
+    return 0;
+}
+
+int GiaoDichDat::getLoai()
+{
+    return 1;
+}
 
 class GiaoDichNhaPho : public GiaoDich
 {
@@ -99,42 +139,50 @@ private:
     double dienTich;
 
 public:
-    void Nhap() override
-    {
-        GiaoDich::Nhap();
-        cout << "Nhap don gia: ";
-        cin >> donGia;
-        cin.ignore();
-        cout << "Nhap loai nha pho (thuong, cao cap): ";
-        getline(cin, type);
-        cout << "Nhap dia chi: ";
-        getline(cin, address);
-        cout << "Nhap dien tich: ";
-        cin >> dienTich;
-        cin.ignore();
-    }
-    void Xuat() override
-    {
-        GiaoDich::Xuat();
-        cout << " | Don gia: " << donGia << " | Loai: " << type << " | Dia chi: " << address << " | Dien tich: " << dienTich;
-    }
-    double tinhThanhTien() override
-    {
-        if (type == "thuong")
-        {
-            return dienTich * donGia * 0.9;
-        }
-        else if (type == "cao cap")
-        {
-            return dienTich * donGia;
-        }
-        return 0;
-    }
-    int getLoai() override
-    {
-        return 2;
-    }
+    void Nhap() override;
+    void Xuat() override;
+    double tinhThanhTien() override;
+    int getLoai() override;
 };
+
+void GiaoDichNhaPho::Nhap()
+{
+    GiaoDich::Nhap();
+    cout << "Nhap don gia: ";
+    cin >> donGia;
+    cin.ignore();
+    cout << "Nhap loai nha pho (thuong, cao cap): ";
+    getline(cin, type);
+    cout << "Nhap dia chi: ";
+    getline(cin, address);
+    cout << "Nhap dien tich: ";
+    cin >> dienTich;
+    cin.ignore();
+}
+
+void GiaoDichNhaPho::Xuat()
+{
+    GiaoDich::Xuat();
+    cout << " | Don gia: " << donGia << " | Loai: " << type << " | Dia chi: " << address << " | Dien tich: " << dienTich;
+}
+
+double GiaoDichNhaPho::tinhThanhTien()
+{
+    if (type == "thuong")
+    {
+        return dienTich * donGia * 0.9;
+    }
+    else if (type == "cao cap")
+    {
+        return dienTich * donGia;
+    }
+    return 0;
+}
+
+int GiaoDichNhaPho::getLoai()
+{
+    return 2;
+}
 
 class GiaoDichChungCu : public GiaoDich
 {
@@ -145,44 +193,52 @@ private:
     double dienTich;
 
 public:
-    void Nhap() override
-    {
-        GiaoDich::Nhap();
-        cout << "Nhap don gia: ";
-        cin >> donGia;
-        cin.ignore();
-        cout << "Nhap ma can: ";
-        getline(cin, maCan);
-        cout << "Nhap vi tri tang: ";
-        cin >> viTri;
-        cout << "Nhap dien tich: ";
-        cin >> dienTich;
-        cin.ignore();
-    }
-    void Xuat() override
-    {
-        GiaoDich::Xuat();
-        cout << " | Don gia: " << donGia << " | Ma can: " << maCan << " | Vi tri tang: " << viTri << " | Dien tich: " << dienTich;
-    }
-    double tinhThanhTien() override
-    {
-        if (viTri == 1)
-        {
-            return dienTich * donGia * 2;
-        }
-        else if (viTri >= 15)
-        {
-            return dienTich * donGia * 1.2;
-        }
-        else
-            return dienTich * donGia;
-        return 0;
-    }
-    int getLoai() override
-    {
-        return 3;
-    }
+    void Nhap() override;
+    void Xuat() override;
+    double tinhThanhTien() override;
+    int getLoai() override;
 };
+
+void GiaoDichChungCu::Nhap()
+{
+    GiaoDich::Nhap();
+    cout << "Nhap don gia: ";
+    cin >> donGia;
+    cin.ignore();
+    cout << "Nhap ma can: ";
+    getline(cin, maCan);
+    cout << "Nhap vi tri tang: ";
+    cin >> viTri;
+    cout << "Nhap dien tich: ";
+    cin >> dienTich;
+    cin.ignore();
+}
+
+void GiaoDichChungCu::Xuat()
+{
+    GiaoDich::Xuat();
+    cout << " | Don gia: " << donGia << " | Ma can: " << maCan << " | Vi tri tang: " << viTri << " | Dien tich: " << dienTich;
+}
+
+double GiaoDichChungCu::tinhThanhTien()
+{
+    if (viTri == 1)
+    {
+        return dienTich * donGia * 2;
+    }
+    else if (viTri >= 15)
+    {
+        return dienTich * donGia * 1.2;
+    }
+    else
+        return dienTich * donGia;
+    return 0;
+}
+
+int GiaoDichChungCu::getLoai()
+{
+    return 3;
+}
 
 class DanhSachGiaoDich
 {
@@ -191,123 +247,137 @@ private:
     int slGDDat, slGDNhaPho, slGDCanho;
 
 public:
-    ~DanhSachGiaoDich()
+    ~DanhSachGiaoDich();
+    void NhapDanhSach();
+    void XuatGiaoDichThang12Nam2024();
+    int tongSoLuonglLoaiGDDat();
+    int tongSoLuonglLoaiGDNhaPho();
+    int tongSoLuonglLoaiGDCanHo();
+    double tbThanhTienGDChungCu();
+    void RICH();
+};
+
+DanhSachGiaoDich::~DanhSachGiaoDich()
+{
+    for (GiaoDich *GD : ds)
     {
-        for (GiaoDich *GD : ds)
-        {
-            delete GD;
-        }
+        delete GD;
     }
-    void NhapDanhSach()
+}
+
+void DanhSachGiaoDich::NhapDanhSach()
+{
+    cout << "So luong giao dich dat: ";
+    cin >> slGDDat;
+    cout << "So luong giao dich nha pho: ";
+    cin >> slGDNhaPho;
+    cout << "So luong giao dich can ho chung cu: ";
+    cin >> slGDCanho;
+    cin.ignore();
+    for (int i = 0; i < slGDDat; i++)
     {
-        cout << "So luong giao dich dat: ";
-        cin >> slGDDat;
-        cout << "So luong giao dich nha pho: ";
-        cin >> slGDNhaPho;
-        cout << "So luong giao dich can ho chung cu: ";
-        cin >> slGDCanho;
-        cin.ignore();
-        for (int i = 0; i < slGDDat; i++)
-        {
-            cout << "\n--- Nhap Giao Dich Dat thu " << i + 1 << " ---\n";
-            GiaoDich *GD = new GiaoDichDat();
-            GD->Nhap();
-            ds.push_back(GD);
-        }
-        for (int i = 0; i < slGDNhaPho; i++)
-        {
-            cout << "\n--- Nhap Giao Dich Nha Pho thu " << i + 1 << " ---\n";
-            GiaoDich *GD = new GiaoDichNhaPho();
-            GD->Nhap();
-            ds.push_back(GD);
-        }
-        for (int i = 0; i < slGDCanho; i++)
-        {
-            cout << "\n--- Nhap Giao Dich Chung Cu thu " << i + 1 << " ---\n";
-            GiaoDich *GD = new GiaoDichChungCu();
-            GD->Nhap();
-            ds.push_back(GD);
-        }
+        cout << "\n--- Nhap Giao Dich Dat thu " << i + 1 << " ---\n";
+        GiaoDich *GD = new GiaoDichDat();
+        GD->Nhap();
+        ds.push_back(GD);
     }
+    for (int i = 0; i < slGDNhaPho; i++)
+    {
+        cout << "\n--- Nhap Giao Dich Nha Pho thu " << i + 1 << " ---\n";
+        GiaoDich *GD = new GiaoDichNhaPho();
+        GD->Nhap();
+        ds.push_back(GD);
+    }
+    for (int i = 0; i < slGDCanho; i++)
+    {
+        cout << "\n--- Nhap Giao Dich Chung Cu thu " << i + 1 << " ---\n";
+        GiaoDich *GD = new GiaoDichChungCu();
+        GD->Nhap();
+        ds.push_back(GD);
+    }
+}
+
+void DanhSachGiaoDich::XuatGiaoDichThang12Nam2024()
+{
+    cout << "\n================ DANH SACH GIAO DICH THANG 12/2024 ================\n";
+    bool coGiaoDich = false; 
     
-    void XuatGiaoDichThang12Nam2024()
+    for (GiaoDich *GD : ds)
     {
-        cout << "\n================ DANH SACH GIAO DICH THANG 12/2024 ================\n";
-        bool coGiaoDich = false; 
-        
-        for (GiaoDich *GD : ds)
+        if (GD->getThangGD() == 12 && GD->getNamGD() == 2024)
         {
-            if (GD->getThangGD() == 12 && GD->getNamGD() == 2024)
-            {
-                if (GD->getLoai() == 1) cout << "[DAT] ";
-                else if (GD->getLoai() == 2) cout << "[NHA PHO] ";
-                else if (GD->getLoai() == 3) cout << "[CHUNG CU] ";
-                
-                GD->Xuat();
-                cout << " | Thanh tien: " << fixed << setprecision(0) << GD->tinhThanhTien() << "\n";
-                coGiaoDich = true; 
-            }
-        }
-        
-        if (!coGiaoDich)
-        {
-            cout << "-> Khong co giao dich nao hop le trong thang 12 nam 2024.\n";
-        }
-        cout << "===================================================================\n";
-    }
-    
-    int tongSoLuonglLoaiGDDat()
-    {
-        return slGDDat;
-    }
-    int tongSoLuonglLoaiGDNhaPho()
-    {
-        return slGDNhaPho;
-    }
-    int tongSoLuonglLoaiGDCanHo()
-    {
-        return slGDCanho;
-    }
-    double tbThanhTienGDChungCu()
-    {
-        if (slGDCanho == 0) return 0;
-        double tongTien = 0;
-        for (GiaoDich *GD : ds)
-        {
-            if (GD->getLoai() == 3)
-            {
-                tongTien += GD->tinhThanhTien();
-            }
-        }
-        return tongTien / slGDCanho;
-    }
-    void RICH()
-    {
-        GiaoDich *GD = nullptr;
-        double maxMoney = -1;
-        for (GiaoDich *DS : ds)
-        {
-            if (DS->getLoai() == 2)
-            {
-                if (DS->tinhThanhTien() > maxMoney)
-                {
-                    maxMoney = DS->tinhThanhTien();
-                    GD = DS;
-                }
-            }
-        }
-        if (GD != nullptr)
-        {
-            cout << "[NHA PHO] ";
+            if (GD->getLoai() == 1) cout << "[DAT] ";
+            else if (GD->getLoai() == 2) cout << "[NHA PHO] ";
+            else if (GD->getLoai() == 3) cout << "[CHUNG CU] ";
+            
             GD->Xuat();
             cout << " | Thanh tien: " << fixed << setprecision(0) << GD->tinhThanhTien() << "\n";
-        }
-        else
-        {
-            cout << "Khong co giao dich nha pho nao.\n";
+            coGiaoDich = true; 
         }
     }
-};
+    
+    if (!coGiaoDich)
+    {
+        cout << "-> Khong co giao dich nao hop le trong thang 12 nam 2024.\n";
+    }
+    cout << "===================================================================\n";
+}
+
+int DanhSachGiaoDich::tongSoLuonglLoaiGDDat()
+{
+    return slGDDat;
+}
+
+int DanhSachGiaoDich::tongSoLuonglLoaiGDNhaPho()
+{
+    return slGDNhaPho;
+}
+
+int DanhSachGiaoDich::tongSoLuonglLoaiGDCanHo()
+{
+    return slGDCanho;
+}
+
+double DanhSachGiaoDich::tbThanhTienGDChungCu()
+{
+    if (slGDCanho == 0) return 0;
+    double tongTien = 0;
+    for (GiaoDich *GD : ds)
+    {
+        if (GD->getLoai() == 3)
+        {
+            tongTien += GD->tinhThanhTien();
+        }
+    }
+    return tongTien / slGDCanho;
+}
+
+void DanhSachGiaoDich::RICH()
+{
+    GiaoDich *GD = nullptr;
+    double maxMoney = -1;
+    for (GiaoDich *DS : ds)
+    {
+        if (DS->getLoai() == 2)
+        {
+            if (DS->tinhThanhTien() > maxMoney)
+            {
+                maxMoney = DS->tinhThanhTien();
+                GD = DS;
+            }
+        }
+    }
+    if (GD != nullptr)
+    {
+        cout << "[NHA PHO] ";
+        GD->Xuat();
+        cout << " | Thanh tien: " << fixed << setprecision(0) << GD->tinhThanhTien() << "\n";
+    }
+    else
+    {
+        cout << "Khong co giao dich nha pho nao.\n";
+    }
+}
 
 int main()
 {
